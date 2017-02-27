@@ -49,8 +49,6 @@ public class MainActivity extends AppCompatActivity {
                         toast.show();
                     } else {
                         btn.setText("Stop");
-//                        intent.putExtra("phoneNumber", phoneNumber);
-//                        intent.putExtra("msgTxt", msgTxt);
                         Log.i(TAG, "alarm started");
                         interval = Integer.parseInt(min) * 60 * 1000;
                         alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
