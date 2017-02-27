@@ -19,6 +19,8 @@ public class MainActivity extends AppCompatActivity {
     static String msgTxt;
     static String phoneNumber;
 
+    public final static String TAG = "MainActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,8 +30,8 @@ public class MainActivity extends AppCompatActivity {
         final EditText number = (EditText) findViewById(R.id.phone);
         final EditText inputTime = (EditText) findViewById(R.id.min);
         final Button btn = (Button) findViewById(R.id.start);
-        final Intent intent = new Intent(this, CustomReceiver.class);
-        final PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        final Intent intent = new Intent(MainActivity.this, CustomReceiver.class);
+        final PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         final AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
         btn.setOnClickListener(new View.OnClickListener() {
@@ -45,10 +47,14 @@ public class MainActivity extends AppCompatActivity {
                     } else if (Integer.parseInt(min) < 1) {
                         Toast toast = Toast.makeText(getApplicationContext(), "Time must be more than 1 minute", Toast.LENGTH_SHORT);
                         toast.show();
-                    }else {
+                    } else {
                         btn.setText("Stop");
+//                        intent.putExtra("phoneNumber", phoneNumber);
+//                        intent.putExtra("msgTxt", msgTxt);
+                        Log.i(TAG, "alarm started");
                         interval = Integer.parseInt(min) * 60 * 1000;
-                        alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), interval, pendingIntent);
+                        alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                                SystemClock.elapsedRealtime(), interval, pendingIntent);
                     }
                 } else {
                     btn.setText("Start");
